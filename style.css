@@ -18,3 +18,56 @@
   background: #16213e;
   border-radius: 8px;
 }
+
+.flably-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.flably-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #e8e8f0;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.flably-link:hover {
+  background: #1c2a4d;
+}
+
+.flably-icon {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  border-radius: 8px 0 0 8px;
+}
+
+.flably-content {
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flably-title {
+  margin: 0 0 10px 0;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: color 0.2s ease;
+}
+
+.flably-link:hover .flably-title {
+  color: #4f9dff;
+}
+
+.flably-desc {
+  margin: 0;
+  color: #a0a4b8;
+  font-size: 20px;
+  line-height: 1.5;
+}
