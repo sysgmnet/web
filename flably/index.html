@@ -90,36 +90,21 @@
     font-weight: 500;
   }
 
-  .badge-release {
-    background-color: #238636;
-    color: #fff;
-  }
+  .badge-release { background-color: #238636; color: #fff; }
+  .badge-beta { background-color: #9e6a03; color: #fff; }
+  .badge-alpha { background-color: #8957e5; color: #fff; }
 
-  .badge-beta {
-    background-color: #9e6a03;
-    color: #fff;
-  }
-
-  .badge-alpha {
-    background-color: #8957e5;
-    color: #fff;
-  }
-
-  .section-body {
-    padding: 0;
-  }
+  .section-body { padding: 0; }
 
   .release-item {
     padding: 12px 16px;
     border-bottom: 1px solid #21262d;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
   }
 
-  .release-item:last-child {
-    border-bottom: none;
-  }
+  .release-item:last-child { border-bottom: none; }
 
   .release-item a {
     font-size: 16px;
@@ -132,11 +117,52 @@
     font-size: 14px;
   }
 
+  .help-btn {
+    background: none;
+    border: 1px solid #30363d;
+    color: #8b949e;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .help-btn:hover {
+    background-color: #30363d;
+    color: #f0f6fc;
+  }
+
+  .help-btn.active {
+    background-color: #58a6ff;
+    border-color: #58a6ff;
+    color: #fff;
+  }
+
   .empty {
     padding: 16px;
     color: #8b949e;
     font-style: italic;
     font-size: 14px;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 90px;
+    right: 40px;
+    width: 30%;
+    max-width: 500px;
+    color: #c9d1d9;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    display: none;
   }
 </style>
 </head>
@@ -172,16 +198,27 @@
   </div>
 </div>
 
-<script>
+<div class="sidebar" id="sidebar-content"></div>
 
+<script>
   const releases = {
     release: [
+
     ],
     beta: [
+
     ],
     alpha: [
-      { title: "Flably Alpha v0.2.0", link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.2/Flably_alpha_v.0.2.zip" },
-      { title: "Flably Alpha v0.1.0", link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.1/Flably_alpha_v0.1.zip" },
+      {
+        title: "Flably Alpha v0.2.0",
+        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.2/Flably_alpha_v.0.2.zip",
+        notes: "New Features:\n- Textures\n- Menu music\n- Virtual Resolution\n- Custom level creation \n- Editor and game are ready"
+      },
+      {
+        title: "Flably Alpha v0.1.0",
+        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.1/Flably_alpha_v0.1.zip",
+        notes: "Initial release.\nPlayer - a square that moves around the screen\nEnvironment - basic obstacles"
+      },
     ],
   };
 
@@ -195,18 +232,44 @@
     }
 
     body.innerHTML = items
-      .map(
-        (item) =>
-          `<div class="release-item">
-             <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-           </div>`
-      )
+      .map((item) => {
+        const safeNotes = (item.notes || "").replace(/"/g, '&quot;');
+        return `
+          <div class="release-item">
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+            <button class="help-btn" data-notes="${safeNotes}" onclick="showNotes(this)">?</button>
+          </div>
+        `;
+      })
       .join("");
+  }
+
+  function showNotes(btn) {
+    document.querySelectorAll('.help-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const notes = btn.getAttribute('data-notes');
+    const contentEl = document.getElementById('sidebar-content');
+
+    if (notes && notes.trim() !== "") {
+      contentEl.innerText = notes;
+      contentEl.style.display = "block";
+    } else {
+      contentEl.innerText = "";
+      contentEl.style.display = "none";
+    }
   }
 
   renderSection("release");
   renderSection("beta");
   renderSection("alpha");
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const firstBtn = document.querySelector('.help-btn');
+    if (firstBtn) {
+      firstBtn.click();
+    }
+  });
 </script>
 
 </body>
