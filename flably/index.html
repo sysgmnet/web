@@ -164,6 +164,11 @@
     white-space: pre-wrap;
     display: none;
   }
+
+    .release-date {
+    color: #8b949e;
+    font-size: 13px;
+  }
 </style>
 </head>
 <body>
@@ -210,13 +215,21 @@
     ],
     alpha: [
       {
+        title: "Flably Alpha v0.2.1",
+        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v0.2.1/Flably_alpha_v0.2.1.zip",
+        date: "Nov 21, 2026",
+        notes: "Updates:\n\n- Menu music volume fixed\n- Editor grid added\n- Expanded game board\n- Camera follows player\n- Editor scale added"
+      },
+      {
         title: "Flably Alpha v0.2.0",
-        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.2/Flably_alpha_v.0.2.zip",
+        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v0.2.0/Flably_alpha_v0.2.zip",
+        date: "Oct 16, 2026",
         notes: "New Features:\n- Textures\n- Menu music\n- Virtual Resolution\n- Custom level creation \n- Editor and game are ready"
       },
       {
         title: "Flably Alpha v0.1.0",
-        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v.0.1/Flably_alpha_v0.1.zip",
+        link: "https://github.com/sysgmnet/Flably-alpha/releases/download/Flably_Alpha_v0.1.0/Flably_alpha_v0.1.zip",
+        date: "Sep 17, 2026",
         notes: "Initial release.\nPlayer - a square that moves around the screen\nEnvironment - basic obstacles"
       },
     ],
@@ -234,10 +247,15 @@
     body.innerHTML = items
       .map((item) => {
         const safeNotes = (item.notes || "").replace(/"/g, '&quot;');
+        const safeDate = item.date || "";
+
         return `
           <div class="release-item">
             <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-            <button class="help-btn" data-notes="${safeNotes}" onclick="showNotes(this)">?</button>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="release-date">${safeDate}</span>
+              <button class="help-btn" data-notes="${safeNotes}" onclick="showNotes(this)">?</button>
+            </div>
           </div>
         `;
       })
